@@ -103,6 +103,9 @@ class SVMSHAP(SVC):
     def _compute_shap_coef(self, X):
         """
         Compute SHAP values using a very small, random sample of the training data.
+        
+        Raises:
+            Exception: If SHAP computation fails for any reason
         """
         X_np = np.array(X)
         n_total = len(X_np)
@@ -118,14 +121,12 @@ class SVMSHAP(SVC):
         background_indices = rng.choice(n_total, n_background, replace=False)
         background = X_np[background_indices]
         
-        # print(f"SHAP explanation: {n_explain} samples. Background: {n_background} samples.")
-        
         try:
             # Determine the model function based on probability setting
             model_func = self.predict_proba if self.probability else self.decision_function
                  
             # Initialize explainer
-            self._shap_explainer = shap.KernelExplainer(model_func, background)
+            self._shap_explainer = shap.KernelExplainer(model_func, background) 
             
             # Compute SHAP values only for the sampled data
             shap_values = self._shap_explainer.shap_values(X_explain)
@@ -143,18 +144,10 @@ class SVMSHAP(SVC):
             self.coef_ = feature_importance.reshape(1, -1)
                 
         except Exception as e:
-            # Fallback: set coef_ to zeros if SHAP fails
-            print(f"Warning: SHAP computation failed. Setting coef_ to zeros. Error: {e}")
-            n_features = X_np.shape[1]
-            # Must handle both multi-class and binary output shapes if possible
-            n_classes = len(np.unique(self.classes_))
-            output_shape = (n_classes, n_features) if n_classes > 2 else (1, n_features)
-            self.coef_ = np.zeros(output_shape)
-        except Exception as e:
-            # Fallback: set coef_ to zeros if SHAP fails
-            print(f"Warning: SHAP computation failed: {e}. Setting coef_ to zeros.")
-            n_features = X.shape[1]
-            self.coef_ = np.zeros((1, n_features))
+            # Re-raise the exception with additional context
+            error_msg = f"SHAP computation failed: {str(e)}"
+            print(f"Error: {error_msg}")
+            raise RuntimeError(error_msg) from e
 
 
    

@@ -50,11 +50,6 @@ fs_methods_lr = [
             }
         },
 
-
-        "fit_params" : {
-            "sample_weight" : "balanced"
-        },
-        
         "param_grid": {
             "C": [1.0],
             "solver": ['liblinear']
@@ -128,11 +123,6 @@ fs_methods_xgb = [
                 "cv": [3]
             }       
         },
-
-        "fit_params" : {
-            "sample_weight" : "balanced"
-        },
-    
         "param_grid": {
             # ... XGBoost params
         }

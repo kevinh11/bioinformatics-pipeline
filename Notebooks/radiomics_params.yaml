@@ -1,0 +1,39 @@
+imageType:
+  Original: {}
+  Wavelet: {} # This enables all 8 wavelet sub-bands
+
+setting:
+  # -------------------------
+  # Resampling (enable only if needed)
+  # -------------------------
+
+  # -------------------------
+  # Normalization
+  # -------------------------
+  normalize: false
+  normalizeScale: 100
+  preCrop: true
+
+  # -------------------------
+  # Discretization (IBSI)
+  # -------------------------
+  binWidth: 25.0
+
+  # -------------------------
+  # Your requested settings
+  # -------------------------
+  correctMask: false
+  label: 1
+  force2D: false
+  resegmentRange: null
+
+featureClass:
+  # Setting these to 'true' ensures they run on the
+  # 'Original' image AND all 8 'Wavelet' sub-bands.
+  shape: []
+  firstorder: []
+  glcm: []
+  glrlm: []
+  glszm: []
+  ngtdm: []
+  gldm: []

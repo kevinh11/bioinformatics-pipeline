@@ -39,7 +39,7 @@ pipeline_dict = {
 
     "radiomic" : {
         "data" : {
-            "df" : pd.read_csv(os.path.join(os.getcwd(), "data", "radiomics_df_cleaned.csv")),
+            "df" : pd.read_csv(os.path.join(os.getcwd(), "data", "radiomics_df_final.csv")),
             "endpoint" : "responder", 
             "identifier" : "TCIA_ID"
         },
